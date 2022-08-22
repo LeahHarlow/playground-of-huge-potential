@@ -1,6 +1,6 @@
 import "./style.css";
 
-import { Scene, PerspectiveCamera, AmbientLight, BoxGeometry, MeshBasicMaterial, Mesh, Side, FrontSide, SphereGeometry, Vector3, Color, CylinderGeometry, OctahedronGeometry, ConeGeometry, PointLight } from "three";
+import { Scene, PerspectiveCamera, AmbientLight, BoxGeometry, MeshBasicMaterial, MeshLambertMaterial, Mesh, Side, FrontSide, SphereGeometry, Vector3, Color, CylinderGeometry, OctahedronGeometry, ConeGeometry, PointLight } from "three";
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
