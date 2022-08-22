@@ -1,6 +1,6 @@
 import "./style.css";
 
-import { Scene, PerspectiveCamera, AmbientLight, BoxGeometry, MeshBasicMaterial, Mesh, Side, FrontSide, SphereGeometry, Vector3, Color, CylinderGeometry, OctahedronGeometry } from "three";
+import { Scene, PerspectiveCamera, AmbientLight, BoxGeometry, MeshBasicMaterial, Mesh, Side, FrontSide, SphereGeometry, Vector3, Color, CylinderGeometry, OctahedronGeometry, ConeGeometry, PointLight } from "three";
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
@@ -27,12 +27,12 @@ let loopHooks: Array<(dt: number) => void> = [];
         // Ground
         const GROUND_SIZE = 1000;
         const groundGeometry = new BoxGeometry(GROUND_SIZE, 1, GROUND_SIZE, 70, 1, 70);
-        const groundMesh = new Mesh(groundGeometry, new MeshBasicMaterial({ color: 0x227700 }));
+        const groundMesh = new Mesh(groundGeometry, new MeshBasicMaterial({ color: 0x227700, wireframe: true }));
         scene.add(groundMesh);
 
         // Red Ball
         const ballGeometry = new SphereGeometry(30, 20, 10);
-        const ballMaterial = new MeshBasicMaterial({ color: 0xff0000 });
+        const ballMaterial = new MeshBasicMaterial({ color: 0xff0000, wireframe: true });
         const ballMesh = new Mesh(ballGeometry, ballMaterial);
         ballMesh.position.y = 30;
         ballMesh.position.x = 200;
@@ -71,6 +71,25 @@ let loopHooks: Array<(dt: number) => void> = [];
         prism.scale.multiplyScalar(4);
         prism.position.y += 80;
 
+        //seesaw
+        const baseGeo = new ConeGeometry(5,15);
+        const baseMaterial = new MeshBasicMaterial({color: 0xFFFF00});
+        const seesawBase = new Mesh(baseGeo, baseMaterial);
+        scene.add(seesawBase);
+        seesawBase.position.y = 35;
+        seesawBase.position.z = -350;
+        seesawBase.scale.multiplyScalar(5);
+
+        const plankGeo = new BoxGeometry(75,2,10);
+        const plankMaterial = new MeshBasicMaterial({color: 0xFFFF00});
+        const seesawPlank = new Mesh(plankGeo, plankMaterial);
+        scene.add(seesawPlank);
+        seesawPlank.position.copy(seesawBase.position);
+        seesawPlank.position.y += 35;
+        seesawPlank.scale.multiplyScalar(5);
+        seesawPlank.rotateZ(0.2);
+
+
         loopHooks.push(dt => {
             prism.rotation.y += 0.05;
         });
@@ -78,6 +97,14 @@ let loopHooks: Array<(dt: number) => void> = [];
         loopHooks.push(dt => {
             controls.update();
         });
+
+        //creatign light
+        const ambientLight = new AmbientLight(0xffffff, 0.2);
+        scene.add(ambientLight);
+
+        const pointLight = new PointLight(0xdddd00, 5, 30);
+        scene.add(pointLight);
+        pointLight
 
     };
 
